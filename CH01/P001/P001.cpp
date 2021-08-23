@@ -3,7 +3,10 @@
 
 #include <iostream>
 /*
-Um MACRO é um NOME que representa um VALUE ou uma FUNCIONALIDADE
+MACROS
+-------
+Um MACRO é um NOME que representa um VALUE ou uma FUNCIONALIDADE ele é executado antes
+da compilacao
 
 Ao definir um nome e.g. HELLO_RUFO e associar ao string "Hola Rufo"
      #define HELLO_RUFO "Hola Rufo"
@@ -16,17 +19,77 @@ ao chamar SUMA(a,b) será retornado o valor.
 Para eliminar o MACRO se usa #undef
     #undef HELLO_RUFO
     #SUMA(a,b)
+
+CONDITIONAL COMPILATION
+-----------------------
+Se depois de utilizar #undef HELLO_RUFO tentamos chamar HELLO_RUFO teremos um erro de compilacao.
+Uma forma de contornar isso é utilizar #ifdef junto com #endif, se HELLO_RUFO foi definido com 
+#define entao é exucutado o codigo.
+
+    #ifdef HELLO_RUFO
+        std::cout << HELLO_RUFO << "\n";
+    #endif
+
+Outra forma é utilizar #ifndef junto com #endif, se HELLO_RUFO NAO foi definido com 
+#define , (ou foi definido porem depois foi deletado com #undef) entao é exucutado o codigo.
+
+    #ifdef HELLO_RUFO
+        std::cout << HELLO_RUFO << "\n";
+    #endif
+
+    OU SEJA dentro das sentencias NAO SERA COMPILADO caso nao cumpra com o #ifdef ou #ifndef
+
+CONDITIONAL IN CONSTANT EXPRESSIONS
+------------------------------------
+Uma expressao constante é aquela que o valor é determinado em tempo de compilacao
+Ao definir com um valor #define value este valor pode ser utilizado por #if #else #elif 
+
+#definr LEVEL 3   
+
+#if LEVEL == 0
+    #define SCORE 0
+#else
+#if LEVEL == 1
+    #define SCORE 15
+#endif
+#endif
+
+Outra forma utilizando #elif seria 
+
+#if LEVEL == 2
+    #define SCORE 30
+#elif LEVEL == 3
+    #define SCORE 45
+#endif
+
+Assim pode se associar o valor SCORE com a definicao de LEVEL
+
+#ifdef SCORE
+    std::cout << SCORE
+#endif
+
+
 */
 
 #define HELLO_RUFO "Hola Rufo"
 #define SUMA(a,b) (a+b)
 int main()
 {
-    //std::cout << HELLO_RUFO << "\n";
-    std::cout << SUMA(3,4) << "\n";
+#ifdef HELLO_RUFO
+    std::cout << HELLO_RUFO << " HELLO_RUFO foi definido\n";
+#endif  HELLO_RUFO
 
-#undef SUMA(a,b)
-    std::cout << SUMA(5, 6) << "\n";
+#undef HELLO_RUFO
+
+#ifndef HELLO_RUFO
+    std::cout << "HELLO_RUFO foi deletado\n";
+#endif  HELLO_RUFO
+
+    
+    
+    
+    //std::cout << SUMA(3,4) << "\n";
+       
     return 0;
 
 }
